@@ -16,21 +16,6 @@
     await SecureStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }
 
-  function collectByFolder(files) {
-    const map = new Map();
-
-    for (const file of files) {
-      const parts = file.webkitRelativePath.split("/");
-      const folder = parts.find(p => p === "data" || p === "scenarios");
-      if (!folder) continue;
-
-      if (!map.has(folder)) map.set(folder, []);
-      map.get(folder).push(file);
-    }
-
-    return map;
-  }
-
   async function parseDataDir(files) {
     const staffFile = files.find(f => f.name === "staff.json");
     if (!staffFile) {
@@ -69,29 +54,38 @@
         throw new Error("Ошибка чтения docs.json: " + e.message);
       }
     }
-    return { staff, dutyPool, roles, docs, positionsPool};
+    return { staff, dutyPool, roles, docs, positionsPool };
   }
 
-  async function parseScenariosDir(files) {
-    const indexFile = files.find(f => f.name === "index.json");
-    if (!indexFile) {
-      throw new Error("В каталоге scenarios отсутствует index.json");
-    }
+  function getDataFiles(fileList) {
+    return Array.from(fileList).filter(f =>
+      f.webkitRelativePath.startsWith("data/") &&
+      f.name.endsWith(".json")
+    );
+  }
 
-    const index = JSON.parse(await indexFile.text());
+  async function readAllJson(files) {
+    const result = [];
 
-    const scenarios = [];
     for (const file of files) {
-      if (!file.name.endsWith(".json") || file.name === "index.json") continue;
-      scenarios.push(JSON.parse(await file.text()));
+      try {
+        const text = await file.text();
+        const json = JSON.parse(text);
+
+        result.push({
+          name: file.name,
+          path: file.webkitRelativePath,
+          data: json
+        });
+
+      } catch (e) {
+        throw new Error(`Ошибка в файле ${file.webkitRelativePath}`);
+      }
     }
 
-    if (!scenarios.length) {
-      throw new Error("Каталог scenarios пуст");
-    }
-
-    return { index, scenarios };
+    return result;
   }
+
 
   // ---------- PUBLIC API ----------
 
@@ -110,17 +104,25 @@
       if (!files || !files.length) {
         throw new Error("Проверь импорт");
       }
-      const grouped = collectByFolder(files);
-      const dataFiles = grouped.get("data");
-      const scenarioFiles = grouped.get("scenarios");
+      console.log(files)
+      for (const file in files) {
+        const parts = file.webkitRelativePath.split("/");
+        console.log(parts)
+      }
+      const tests = {};
+      save(tests);
+    },
 
-      if (!dataFiles || !scenarioFiles) {
-        throw new Error("Не найдены каталоги data и scenarios");
+    async importPolls(fileList) {
+      const files = getDataFiles(fileList);
+
+      if (!files.length) {
+        throw new Error("В папке data нет JSON файлов");
       }
 
-      const fullData = { };
+      const polls = await readAllJson(files);
 
-      save(fullData);
+      return polls;
     },
 
 

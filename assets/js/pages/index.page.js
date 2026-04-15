@@ -8,13 +8,12 @@ window.IndexPage = function() {
 
     try {
       Clock.start();
-
-      const scenarios = await Data.getIndex();
-      if (!scenarios || !scenarios.length) {
+      const tests = await Data.getIndex();
+      if (!tests || !tests.length) {
         showImportUI();
         return;
       }
-      renderGrid(scenarios);
+      renderGrid(tests);
     } catch (e) {
       console.error(e);
       renderFatal(e);
@@ -80,7 +79,7 @@ window.IndexPage = function() {
       status.className = "import-status loading";
 
       try {
-        await Data.importFiles(input.files);
+        await Data.importPolls(input.files);
 
         status.textContent = "Данные успешно импортированы";
         status.className = "import-status success";
@@ -112,15 +111,11 @@ window.IndexPage = function() {
       .sort((a, b) => a.order - b.order)
       .forEach(s => {
         const a = document.createElement("a");
-        a.className = "tile " + s.color;
-        a.href = `#/scenario?id=${s.id}`;
-        const label = utils.hotkeyLabel(s.hotkey);
+        a.className = "tile ";
+        a.href = `#/run-test?id=${s.id}`;
 
         a.innerHTML = `
           <div class="title">${s.title}</div>
-          <div class="hint">
-            <span class="kbd"><i>${label}</i></span>
-          </div>
         `;
         grid.appendChild(a);
       });
