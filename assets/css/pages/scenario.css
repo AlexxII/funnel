@@ -1,0 +1,391 @@
+.app {
+  display: flex;
+  height: 100%;
+  /* исправил формулу высоты */
+}
+
+#scenario-root {
+  height: calc(100vh - 65px);
+}
+
+.topbar {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid #333;
+  background: #1b1b1b;
+}
+
+.right-side {
+  display: flex;
+  gap: 30px;
+}
+
+#clock {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+/* левая колонка со степпером */
+.steps {
+  width: 400px;
+  padding: 20px;
+  border-right: 1px solid #333;
+  overflow-y: auto;
+}
+
+/* каждый шаг */
+.step {
+  position: relative;
+  padding: 5px 0px 5px 30px;
+  margin-bottom: 20px;
+}
+
+/* вертикальная линия соединения */
+.step::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: -20px;
+  width: 2px;
+  background: #444;
+}
+
+.step:first-child::before {
+  top: 50%;
+}
+
+.step:last-child::before {
+  display: none;
+}
+
+/* кружок-индикатор */
+.step .dot {
+  position: absolute;
+  left: 2px;
+  top: 15px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #666;
+}
+
+.step.active .dot {
+  background: #1e88e5;
+}
+
+.step.done .dot {
+  background: #43a047;
+}
+
+.step.partial .dot {
+  background: #ffa726;
+}
+
+.step.partial .step-title {
+  color: #ffa726;
+}
+
+.step.viewed .dot {
+  background: #607d8b;
+}
+
+.step.viewed .step-title {
+  color: #90a4ae;
+}
+
+/* заголовок шага */
+.step-title {
+  padding: 5px 0px 10px 10px;
+  font-size: 18px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.step-title.current {
+  background: #1b1b1b;
+}
+
+.step-title:hover {
+  background: #1b1b1b;
+}
+
+.step.active .step-title {
+  color: #1e88e5;
+  font-weight: bold;
+}
+
+/* правая основная область */
+.content {
+  flex: 1;
+  padding: 30px;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+#step-title {
+  font-size: 38px;
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+
+/* ===== ADDED: улучшенный блок текста шага ===== */
+#step-text {
+  margin-top: 30px;
+  font-size: 22px;
+  line-height: 1.7;
+}
+
+/* кнопки */
+.actions {
+  margin-top: 30px 0;
+}
+
+/* ========================= */
+/* ===== ADDED BLOCKS ===== */
+/* ========================= */
+
+/* ===== STEP LINE WRAPPER ===== */
+.step-line {
+  margin-bottom: 16px;
+  animation: fadeInLine 0.15s ease forwards;
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+/* ===== CONFIRM BLOCK ===== */
+
+.confirm-line {
+  border-radius: 8px;
+  background: #1b1b1b;
+  border: 1px solid #2a2a2a;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+}
+
+.confirm-line:hover {
+  background: #222;
+}
+
+.confirm-line.confirmed {
+  border-left: 4px solid #43a047;
+  background: rgba(67, 160, 71, 0.08);
+}
+
+.confirm-line label {
+  padding: 14px 18px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.confirm-time {
+  font-size: 18px;
+  opacity: 0.7;
+  margin-left: auto;
+  position: absolute;
+  right: 10px;
+  top: 0;
+}
+
+.confirm-content {
+  flex: 1;
+}
+
+.confirm-content:not(.notify) {
+  white-space: pre-line;
+}
+
+.position {
+  font-size: 16px;
+}
+
+.absent {
+  color: #ef5350;
+  font-size: 14px;
+}
+
+.phone-number {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+/* ===== PLAIN INSTRUCTION ===== */
+
+.plain-line {
+  position: relative;
+  padding: 14px 18px 14px 20px;
+  margin-bottom: 6px;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: #e2e8f0;
+}
+
+.plain-line:not(".notify") {
+  white-space: pre-line;
+}
+
+.plain-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: #1e88e5;
+  border-radius: 2px;
+}
+
+/* ===== ADDED: плавное появление ===== */
+
+@keyframes fadeInLine {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ========================= */
+/* ===== MODE SELECT ===== */
+/* ========================= */
+
+
+.mode-select {
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #121212;
+  color: #e0e0e0;
+  text-align: center;
+}
+
+.mode-select h2 {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 30px;
+  letter-spacing: 0.3px;
+}
+
+.mode-select>div {
+  display: flex;
+  gap: 20px;
+}
+
+.mode-select button {
+  min-width: 180px;
+  padding: 16px 24px;
+  background: #1e1e1e;
+  color: #e0e0e0;
+  border: 1px solid #333;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.mode-select button:hover {
+  background: #222;
+  border-color: #555;
+}
+
+.mode-select button:active {
+  transform: translateY(1px);
+}
+
+.mode-select button[data-mode="day"] {
+  border-left: 4px solid #1e88e5;
+}
+
+.mode-select button[data-mode="night"] {
+  border-left: 4px solid #6d4c41;
+}
+
+/* ========================= */
+/* ===== FALLBACK ===== */
+/* ========================= */
+
+.fallback {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #121212;
+  color: #e0e0e0;
+  text-align: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.fallback h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.fallback p {
+  opacity: 0.8;
+  margin-bottom: 30px;
+}
+
+.fallback-btn:hover {
+  background: #222;
+}
+
+.info-line {
+  margin: 20px 0;
+  padding: 16px 18px;
+  background: #161616;
+  border-radius: 6px;
+  border-left: 4px solid #607d8b;
+  font-size: 20px;
+  line-height: 1.7;
+  color: #cfd8dc;
+}
+
+.info-paragraph {
+  margin-bottom: 12px;
+  white-space: pre-line;
+}
+
+.info-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.variant-warning {
+  border-left: 4px solid #e53935;
+  background: rgba(229, 57, 53, 0.12);
+}
+
+.variant-flat {
+  background: none;
+  border-left: none;
+}
+
+.text-color-blue {
+  color: #42a5f5;
+}
+
+.text-color-red {
+  color: #ef5350;
+}
+
+.text-color-orange {
+  color: #ffa726;
+}
+
+.text-color-yellow {
+  color: yellow
+}

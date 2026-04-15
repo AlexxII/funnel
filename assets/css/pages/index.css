@@ -1,0 +1,84 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 400px));
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  min-height: 260px;
+  text-decoration: none;
+  color: white;
+  border-radius: 8px;
+  background: #444;
+  position: relative;
+}
+
+.tile.red {
+  background: #b71c1c;
+}
+
+.tile.orange {
+  background: #ef6c00;
+}
+
+.tile.blue {
+  background: #1565c0;
+}
+
+.tile.green {
+  background: green;
+}
+
+.tile.purple {
+  background: purple;
+}
+
+.tile .title {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.tile .desc {
+  margin-top: 10px;
+  opacity: 0.8;
+}
+
+.header #clock {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 0 20px;
+}
+
+.no-gap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header div:not(.no-gap) {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.header a:hover {
+  color: darkgrey;
+}
+
+.hint {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
