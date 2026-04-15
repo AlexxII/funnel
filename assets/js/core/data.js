@@ -1,6 +1,6 @@
 // работа с данными, импорт, валидация, обработка и API для получения
 (function() {
-  const STORAGE_KEY = "duty.data";
+  const STORAGE_KEY = "funnel.data";
 
   // ---------- INTERNAL HELPERS ----------
 

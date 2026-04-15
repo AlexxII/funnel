@@ -8,7 +8,6 @@ window.IndexPage = function() {
 
     try {
       Clock.start();
-      await Data.init();
 
       const scenarios = await Data.getIndex();
       if (!scenarios || !scenarios.length) {
