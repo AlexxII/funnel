@@ -9,10 +9,10 @@ window.IndexPage = function() {
     try {
       Clock.start();
       const tests = await Data.getIndex();
-      if (!tests || !tests.length) {
-        showImportUI();
-        return;
-      }
+      // if (!tests || !tests.length) {
+      //   showImportUI();
+      //   return;
+      // }
       renderGrid(tests);
     } catch (e) {
       console.error(e);

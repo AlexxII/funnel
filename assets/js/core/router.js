@@ -2,6 +2,7 @@
   const routes = {
     "/": window.IndexPage,
     "/settings": window.SettingsPage,
+    "/docs": window.DocsPage,
   };
 
   let currentInstance = null;
@@ -19,6 +20,7 @@
     if (currentInstance?.unmount) {
       currentInstance.unmount();
     }
+
     const Page = routes[path];
     if (!Page) {
       document.getElementById("app").innerHTML = "404";
