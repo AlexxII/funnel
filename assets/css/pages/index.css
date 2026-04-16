@@ -17,6 +17,7 @@
   border-radius: 8px;
   background: #444;
   position: relative;
+  text-align: center;
 }
 
 .tile.red {
