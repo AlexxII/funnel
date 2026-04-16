@@ -1,0 +1,153 @@
+/* ===== SETTINGS LAYOUT ===== */
+
+.settings-layout {
+  display: flex;
+  height: calc(100vh - 130px);
+}
+
+.settings-nav {
+  width: 240px;
+  border-right: 1px solid #333;
+  padding: 10px;
+}
+
+.settings-nav button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: #aaa;
+  text-align: left;
+  cursor: pointer;
+}
+
+.settings-nav button.active {
+  background: #1e1e1e;
+  color: #fff;
+}
+
+.settings-content {
+  flex: 1;
+  padding: 0 30px 0 30px;
+  overflow-y: auto;
+}
+
+/* ===== SECTIONS ===== */
+
+.settings-section {
+  display: none;
+}
+
+.settings-section.active {
+  display: block;
+}
+
+/* __________________________________________ */
+
+#management-list {
+  padding: 0 20px;
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+
+  max-width: 100%;
+}
+
+.users-select {
+  width: 40%;
+  margin-top: 10px;
+  background: #1e1e1e;
+  color: #e0e0e0;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 15px;
+  line-height: 1.4;
+  outline: none;
+}
+
+#management-list>.leader-row:first-child {
+  grid-column: 1 / -1;
+}
+
+.leader-row {
+  font-size: 22px;
+  border-bottom: 1px solid #333;
+  padding: 16px 0;
+}
+
+.leader-title {
+  font-weight: bold;
+}
+
+.leader-name {
+  margin-top: 4px;
+}
+
+.leader-status {
+  margin-left: 10px;
+  font-size: 13px;
+}
+
+.leader-status.on {
+  color: #4caf50;
+}
+
+.leader-status.off {
+  color: #f44336;
+}
+
+.absent-flag {
+  font-size: 20px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.5);
+  margin: 10px;
+}
+
+input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+
+.absent-flag:hover {
+  cursor: pointer;
+}
+
+.absent-date {
+  margin-left: 10px;
+}
+
+.acting {
+  margin-top: 12px;
+  padding-left: 20px;
+}
+
+.acting-title {
+  padding-top: 10px;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.acting-option {
+  display: block;
+  cursor: pointer;
+  margin-bottom: 4px;
+  color: #bbb;
+}
+
+.acting-option.active {
+  background: #7f1d1d;
+  color: #fff;
+  padding: 4px;
+}
+
+.hidden {
+  display: none !important;
+}

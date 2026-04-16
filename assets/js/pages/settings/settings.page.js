@@ -9,7 +9,7 @@ window.SettingsPage = function() {
     bindNavigation();
 
     try {
-      await initDataAndMount("management");
+      await initDataAndMount("common");
     } catch (e) {
       console.log(e)
     }
@@ -27,24 +27,13 @@ window.SettingsPage = function() {
         <div class="settings-layout">
 
           <nav class="settings-nav">
-            <button data-section="management" class="active">Должностные лица</button>
-            <button data-section="assistants">Помощники</button>
-            <button data-section="staff-manager">Сотрудники</button>
-            <button data-section="docs-manager">Документы</button>
-            <button data-section="staff-converter">Конвертер staff</button>
-            <button data-section="scenario-builder">Конструктор сценариев</button>
-            <button data-section="danger-zone">Сброc</button>
+            <button data-section="common" class="active">Общие</button>
+            <button data-section="tests-editor">Редактор</button>
           </nav>
 
           <main class="settings-content">
-            <section id="management" class="settings-section active"></section>
-            <!-- <section id="duty" class="settings-section"></section> -->
-            <section id="assistants" class="settings-section"></section>
-            <section id="staff-converter" class="settings-section"></section>
-            <section id="staff-manager" class="settings-section"></section>
-            <section id="scenario-builder" class="scenario-builder"></section>
-            <section id="docs-manager" class="settings-section"></section>
-            <section id="danger-zone" class="settings-section"></section>
+            <section id="common" class="common-section active"></section>
+            <section id="tests-editor" class="tests-editor-section"></section>
           </main>
 
         </div>
@@ -55,11 +44,9 @@ window.SettingsPage = function() {
   async function initDataAndMount(section) {
     await Data.init();
 
-    const staff = await Data.getStaff();
-    const roles = await Data.getRoles();
-    const dutyPool = await Data.getDutyPool();
+    const testData = await Data.getTestData();
 
-    switchModule(section, { staff, roles, dutyPool });
+    switchModule(section, { testData });
   }
 
   function switchModule(section, data) {
@@ -68,36 +55,12 @@ window.SettingsPage = function() {
       activeModule.unmount();
     }
 
-    if (section === "management") {
-      activeModule = window.SettingsManagement(data.staff, data.roles);
+    if (section === "common") {
+      activeModule = window.SettingsCommon(data.testData);
     }
 
-    if (section === "duty") {
-      activeModule = window.SettingsDuty(data.dutyPool.duty_pool, data.staff);
-    }
-
-    if (section === "assistants") {
-      activeModule = window.SettingsAssistants(data.staff, data.roles);
-    }
-
-    if (section === "staff-manager") {
-      activeModule = window.StaffManager()
-    }
-
-    if (section === "staff-converter") {
-      activeModule = window.StaffConverter();
-    }
-
-    if (section === "scenario-builder") {
-      activeModule = window.ScenarioBuilder();
-    }
-
-    if (section === "docs-manager") {
-      activeModule = window.DocsManager();
-    }
-
-    if (section === "danger-zone") {
-      activeModule = window.DangerZone();
+    if (section === "tests-editor") {
+      activeModule = window.SettingsEditor(data.testData);
     }
 
     activeModule.mount();

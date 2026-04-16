@@ -95,6 +95,10 @@
       return;
     },
 
+    async getTestData() {
+      return ["test"];
+    },
+
     async hasData() {
       const data = load();
       return !!(data && data.staff?.length && data.scenarios?.length);
