@@ -26,7 +26,7 @@ window.IndexPage = function() {
         <div class="header">
           <div class="no-gap">
             <img src="assets/icons/duty.png" alt="logo" class="logo"/>
-            <h1>Воронка</h1>
+            <h1>Ку</h1>
           </div>
           <div>
             <a class="nav" href="#/settings" data-tooltip="Настройки системы">
