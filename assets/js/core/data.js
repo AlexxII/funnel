@@ -16,47 +16,6 @@
     await SecureStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }
 
-  async function parseDataDir(files) {
-    const staffFile = files.find(f => f.name === "staff.json");
-    if (!staffFile) {
-      throw new Error("В каталоге data отсутствует staff.json");
-    }
-    const staff = JSON.parse(await staffFile.text());
-    if (!Array.isArray(staff)) {
-      throw new Error("staff.json должен содержать массив");
-    }
-
-    const dutyPoolFile = files.find(f => f.name === "duty_pool.json");
-    if (!dutyPoolFile) {
-      throw new Error("В каталоге data отсутствует duty_pool.json");
-    }
-    const dutyPool = JSON.parse(await dutyPoolFile.text());
-
-    const positionsPoolFile = files.find(f => f.name === "positions_pool.json");
-    if (!positionsPoolFile) {
-      throw new Error("В каталоге data отсутствует positionsPoolFile.json");
-    }
-    const positionsPool = JSON.parse(await positionsPoolFile.text());
-
-    const rolesFile = files.find(f => f.name === "roles.json");
-    if (!rolesFile) {
-      throw new Error("В каталоге data отсутствует roles.json");
-    }
-    const roles = JSON.parse(await rolesFile.text());
-
-    const docsFile = files.find(f => f.name === "docs.json");
-    let docs = null;
-
-    if (docsFile) {
-      try {
-        docs = JSON.parse(await docsFile.text());
-      } catch (e) {
-        throw new Error("Ошибка чтения docs.json: " + e.message);
-      }
-    }
-    return { staff, dutyPool, roles, docs, positionsPool };
-  }
-
   function getDataFiles(fileList) {
     return Array.from(fileList).filter(f =>
       f.webkitRelativePath.startsWith("data/") &&
@@ -101,20 +60,8 @@
 
     async hasData() {
       const data = load();
+      console.log(data)
       return !!(data && data.staff?.length && data.scenarios?.length);
-    },
-
-    async importFiles(files) {
-      if (!files || !files.length) {
-        throw new Error("Проверь импорт");
-      }
-      console.log(files)
-      for (const file in files) {
-        const parts = file.webkitRelativePath.split("/");
-        console.log(parts)
-      }
-      const tests = {};
-      save(tests);
     },
 
     async importPolls(fileList) {
@@ -125,14 +72,14 @@
       }
 
       const polls = await readAllJson(files);
-
-      return polls;
+      console.log(polls)
+      save(polls)
     },
 
 
     async getIndex() {
       const data = await load();
-      return data?.index || [];
+      return data || [];
     },
 
     async getStaff() {

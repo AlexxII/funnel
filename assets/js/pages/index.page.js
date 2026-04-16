@@ -9,10 +9,10 @@ window.IndexPage = function() {
     try {
       Clock.start();
       const tests = await Data.getIndex();
-      // if (!tests || !tests.length) {
-      //   showImportUI();
-      //   return;
-      // }
+      if (!tests || !tests.length) {
+        showImportUI();
+        return;
+      }
       renderGrid(tests);
     } catch (e) {
       console.error(e);
@@ -26,7 +26,7 @@ window.IndexPage = function() {
         <div class="header">
           <div class="no-gap">
             <img src="assets/icons/duty.png" alt="logo" class="logo"/>
-            <h1>Ку</h1>
+            <h1>Воронка</h1>
           </div>
           <div>
             <a class="nav" href="#/settings" data-tooltip="Настройки системы">
@@ -88,10 +88,10 @@ window.IndexPage = function() {
           overlay.remove();
           app.style.display = "";
 
-          const scenarios = await Data.getIndex();
+          const tests = await Data.getIndex();
 
-          if (scenarios && scenarios.length) {
-            renderGrid(scenarios);
+          if (tests && tests.length) {
+            renderGrid(tests);
           }
         }, 600);
 
@@ -103,19 +103,19 @@ window.IndexPage = function() {
     });
   }
 
-  function renderGrid(scenarios) {
+  function renderGrid(tests) {
     const grid = root.querySelector("#grid");
     grid.innerHTML = "";
 
-    scenarios
+    tests
       .sort((a, b) => a.order - b.order)
       .forEach(s => {
         const a = document.createElement("a");
         a.className = "tile ";
-        a.href = `#/run-test?id=${s.id}`;
+        a.href = `#/run-test?id=${s.data.id}`;
 
         a.innerHTML = `
-          <div class="title">${s.title}</div>
+          <div class="title">${s.data.title}</div>
         `;
         grid.appendChild(a);
       });
